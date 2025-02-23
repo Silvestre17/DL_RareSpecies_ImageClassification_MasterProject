@@ -1,0 +1,30 @@
+# DL Project 24.25 - [Group XX]
+
+Work developed in the Deep Learning course of the Master's in Data Science and Advanced Analytics at NOVA IMS.
+
+> This project aims to ...
+
+<br>
+
+## **Links**
+
+> [**👨‍💻 GitHub Repository**]()
+
+> [**📰 Report**](https://liveeduisegiunl-my.sharepoint.com/:w:/g/personal/20240502_novaims_unl_pt/ERcgSmcncBFAv-FK0QjHyPUBXYOq5O4mTqzoFe5L_PFDZg?e=GCmH13)
+
+> [**🎲 Dataset**]()
+
+
+<br>
+
+#### Group XX
+
+  - André Silvestre, 20240502
+  - Diogo Duarte, 20240525
+  - Filipa Pereira, 20240509
+  - Maria Cruz, 20230760
+  - Umeima Mahomed, 20240543
+  
+<br>
+
+## **Notebooks Structure**
