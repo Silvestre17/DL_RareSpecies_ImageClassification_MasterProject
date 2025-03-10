@@ -23,7 +23,7 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
   - Diogo Duarte, 20240525
   - Filipa Pereira, 20240509
   - Maria Cruz, 20230760
-  - Umeima Mahomed, 20240543
+  - Umeima Adam Mahomed, 20240543
   
 <br>
 
