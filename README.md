@@ -8,11 +8,11 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
 
 ## **Links**
 
-> [**👨‍💻 GitHub Repository**]()
+> [**👨‍💻 GitHub Repository**](https://github.com/Silvestre17/DeepLearning_Project_Group37)
 
 > [**📰 Report**](https://liveeduisegiunl-my.sharepoint.com/:w:/g/personal/20240502_novaims_unl_pt/ERcgSmcncBFAv-FK0QjHyPUBXYOq5O4mTqzoFe5L_PFDZg?e=GCmH13)
 
-> [**🎲 Dataset**]()
+> [**🎲 Dataset**](https://drive.google.com/file/d/1PyxqW_nsORX4PetkQo6OIL0mUL1pFsTD/view)
 
 
 <br>
