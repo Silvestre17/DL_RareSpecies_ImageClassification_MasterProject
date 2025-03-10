@@ -17,7 +17,7 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
 
 <br>
 
-#### Group XX
+#### Group 37
 
   - André Silvestre, 20240502
   - Diogo Duarte, 20240525
