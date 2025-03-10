@@ -1,4 +1,4 @@
-# DL Project 24.25 - [Group XX]
+# DL Project 24.25 - [Group 37]
 
 Work developed in the Deep Learning course of the Master's in Data Science and Advanced Analytics at NOVA IMS.
 
