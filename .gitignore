@@ -12,6 +12,7 @@ __pycache__/
 *$py.class
 
 # virtualenv
+tf218/
 venv/
 ENV/
 
