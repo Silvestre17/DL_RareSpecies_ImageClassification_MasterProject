@@ -43,7 +43,6 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
   - [**`6_Modeling - ConvNeXt_DLProject_Group37.ipynb`**](./6_Modeling%20-%20ConvNeXt_DLProject_Group37.ipynb)
   - [**`7_Modeling - AlexNet_DLProject_Group37.ipynb`**](./7_Modeling%20-%20AlexNet_DLProject_Group37.ipynb)
 
-- **`AlexNet`**
 
 3. **Evaluation**
   - [**`8_Evaluation_DLProject_Group37.ipynb`**](./8_Evaluation_DLProject_Group37.ipynb)
