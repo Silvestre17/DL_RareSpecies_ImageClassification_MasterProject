@@ -21,3 +21,5 @@ ENV/
 
 # idea folder, uncomment if you don't need it
 .idea/
+checkpoint.keras
+metrics.csv

@@ -16,6 +16,7 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
 
 > [**🎲 Dataset**](https://drive.google.com/file/d/1PyxqW_nsORX4PetkQo6OIL0mUL1pFsTD/view)
 
+> [**📦 Dataset (Splitted)**](https://drive.google.com/file/d/1CxoEypMtEp_Uzh9MiCJKWmQ9OBs7iNdY/view?usp=drive_link)
 
 
 <br>
