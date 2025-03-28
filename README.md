@@ -37,12 +37,12 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
   - [**`1_BU&EDA&FE_DLProject_Group37.ipynb`**](./1_BU&EDA&FE_DLProject_Group37.ipynb)
 
 2. **Pre-trained Models**
-  - [**`2_Modeling - Baseline Model_DLProject_Group37.ipynb`**](./2_Modeling%20-%20Baseline%20Model_DLProject_Group37.ipynb)
-  - [**`3_Modeling - VGG-19&VGG-16_DLProject_Group37.ipynb`**](./3_Modeling%20-%20VGG-19&VGG-16_DLProject_Group37.ipynb)
-  - [**`4_Modeling - InceptionV3_DLProject_Group37.ipynb`**](./4_Modeling%20-%20InceptionV3_DLProject_Group37.ipynb)
-  - [**`5_Modeling - ResNet50V2_DLProject_Group37.ipynb`**](./5_Modeling%20-%20ResNet50V2_DLProject_Group37.ipynb)
-  - [**`6_Modeling - ConvNeXt_DLProject_Group37.ipynb`**](./6_Modeling%20-%20ConvNeXt_DLProject_Group37.ipynb)
-  - [**`7_Modeling - AlexNet_DLProject_Group37.ipynb`**](./7_Modeling%20-%20AlexNet_DLProject_Group37.ipynb)
+  - [**`2_Modeling_Baseline Model_DLProject_Group37.ipynb`**](./2_Modeling_Baseline%20Model_DLProject_Group37.ipynb)
+  - [**`3_Modeling_VGG-19&VGG-16_DLProject_Group37.ipynb`**](./3_Modeling_VGG-19&VGG-16_DLProject_Group37.ipynb)
+  - [**`4_Modeling_InceptionV3_DLProject_Group37.ipynb`**](./4_Modeling_InceptionV3_DLProject_Group37.ipynb)
+  - [**`5_Modeling_ResNet50V2_DLProject_Group37.ipynb`**](./5_Modeling_ResNet50V2_DLProject_Group37.ipynb)
+  - [**`6_Modeling_ConvNeXt_DLProject_Group37.ipynb`**](./6_Modeling_ConvNeXt_DLProject_Group37.ipynb)
+  - [**`7_Modeling_AlexNet_DLProject_Group37.ipynb`**](./7_Modeling_AlexNet_DLProject_Group37.ipynb)
 
 
 3. **Evaluation**
