@@ -16,7 +16,7 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
 
 > [**🎲 Dataset**](https://drive.google.com/file/d/1PyxqW_nsORX4PetkQo6OIL0mUL1pFsTD/view)
 
-> [**📦 Dataset (Splitted)**](https://drive.google.com/file/d/1EYwK5a0wzwg5dHSFhn38zRsi7cihEXtc/view?usp=drive_link)
+> [**📦 Dataset (Splitted)**](https://drive.usercontent.google.com/download?id=11vkRJLP-re8E-8DWaoKeSuG66u64ez0J&export=download&authuser=0)
 
 
 <br>
@@ -33,17 +33,19 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
 
 ## **Notebooks Structure**
 
-1 - **Data Preparation**
+1 - **Data & Image Preparation**
   - [**`1_BU&EDA&FE_DLProject_Group37.ipynb`**](./1_BU&EDA&FE_DLProject_Group37.ipynb)
+  - [**`2_ImagePreprocessing&DataAugmentation_DLProject_Group37.ipynb`**](./2_ImagePreprocessing&DataAugmentation_DLProject_Group37.ipynb)
 
-2. **Pre-trained Models**
-  - [**`2_Modeling_Baseline Model_DLProject_Group37.ipynb`**](./2_Modeling_Baseline%20Model_DLProject_Group37.ipynb)
-  - [**`3_Modeling_VGG-19&VGG-16_DLProject_Group37.ipynb`**](./3_Modeling_VGG-19&VGG-16_DLProject_Group37.ipynb)
-  - [**`4_Modeling_InceptionV3_DLProject_Group37.ipynb`**](./4_Modeling_InceptionV3_DLProject_Group37.ipynb)
-  - [**`5_Modeling_ResNet50V2_DLProject_Group37.ipynb`**](./5_Modeling_ResNet50V2_DLProject_Group37.ipynb)
-  - [**`6_Modeling_ConvNeXt_DLProject_Group37.ipynb`**](./6_Modeling_ConvNeXt_DLProject_Group37.ipynb)
-  - [**`7_Modeling_AlexNet_DLProject_Group37.ipynb`**](./7_Modeling_AlexNet_DLProject_Group37.ipynb)
+2. **Baseline Model - CNN**
+   - [**`3_Baseline_Model_DLProject_Group37.ipynb`**](./3_Baseline_Model_DLProject_Group37.ipynb)
+
+3. **Pre-trained Models**
+   - [**`4...`**](./)
 
 
-3. **Evaluation**
-  - [**`8_Evaluation_DLProject_Group37.ipynb`**](./8_Evaluation_DLProject_Group37.ipynb)
+4. **Evaluation**
+  - 
+
+5. **Innovative Approach**
+  - [**`9_Innovative_Approach_DLProject_Group37.ipynb`**](./9_Innovative_Approach_DLProject_Group37.ipynb)
