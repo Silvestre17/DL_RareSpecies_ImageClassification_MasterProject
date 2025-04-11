@@ -137,7 +137,7 @@ def load_images_from_directory(# Directory paths
         color_mode=color_mode,                          # Color mode to read images
         batch_size=batch_size,                          # Size of the batches of data
         image_size=image_size,                          # Size of the images to read (256x256)
-        shuffle=False,                                  # Whether to shuffle the data - since we already split the data, we don't need to shuffle again
+        shuffle=True,                                   # Whether to shuffle the data - True for training data 
         seed=seed,                                      # Random seed for shuffling and transformations
         interpolation=interpolation,                    # Interpolation method to resample the image
         crop_to_aspect_ratio=crop_to_aspect_ratio,      # Whether to crop the image to the aspect ratio
@@ -145,16 +145,25 @@ def load_images_from_directory(# Directory paths
     )
 
     # Validation data generator
-    val_datagen = image_dataset_from_directory(val_dir, label_mode=label_mode, image_size=image_size, batch_size=batch_size,
-                                               class_names=class_names, color_mode=color_mode,
-                                               seed=seed, shuffle=False, interpolation=interpolation, 
+    val_datagen = image_dataset_from_directory(val_dir, labels=labels, label_mode=label_mode, image_size=image_size, batch_size=batch_size,
+                                               class_names=class_names, color_mode=color_mode, interpolation=interpolation, 
+                                               seed=seed, shuffle=False,   # No shuffling for validation data
                                                crop_to_aspect_ratio=crop_to_aspect_ratio, pad_to_aspect_ratio=pad_to_aspect_ratio)
 
     # Test data generator
-    test_datagen = image_dataset_from_directory(test_dir, label_mode=label_mode, image_size=image_size, batch_size=batch_size,
-                                                class_names=class_names, color_mode=color_mode,
-                                                seed=seed, shuffle=False, interpolation=interpolation,
+    test_datagen = image_dataset_from_directory(test_dir, labels=labels, label_mode=label_mode, image_size=image_size, batch_size=batch_size,
+                                                class_names=class_names, color_mode=color_mode, interpolation=interpolation,
+                                                seed=seed, shuffle=False,  # No shuffling for test data
                                                 crop_to_aspect_ratio=crop_to_aspect_ratio, pad_to_aspect_ratio=pad_to_aspect_ratio)
+    
+    
+    # --- Optimize Data Pipelines with Prefetch ---
+    # Apply prefetch to all datasets for performance optimization
+    # Source: https://www.tensorflow.org/guide/data_performance#prefetching
+    train_datagen = train_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
+    val_datagen = val_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
+    test_datagen = test_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
+    
     
     # Return the data generators
     return train_datagen, val_datagen, test_datagen
