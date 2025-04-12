@@ -215,7 +215,7 @@ def display_side_by_side(*args, super_title: str, titles=cycle([''])):
 # Function to create a DataFrame for model evaluation metrics
 def create_evaluation_dataframe(model_name: str, variation: str, 
                                 train_metrics: dict, val_metrics: dict, test_metrics: dict,
-                                train_time: float, round_decimals: int = 4) -> pd.DataFrame:
+                                train_time: float, round_decimals: int = 4, csv_save_path: str = None) -> pd.DataFrame:
     """
     Create a MultiIndex DataFrame for model evaluation metrics with row and column levels.
 
@@ -227,6 +227,7 @@ def create_evaluation_dataframe(model_name: str, variation: str,
         test_metrics(dict) : Same structure as train_metrics, for the test set.
         train_time(float) : Time of execution in seconds.
         round_decimals(int, optional) : Number of decimal places to round the metrics (default is 4).
+        csv_save_path(str, optional) : Path to save the DataFrame as a CSV file (default is None, no saving).
 
     Returns:
         df(pd.DataFrame) : A styled MultiIndex DataFrame with metrics across Train/Validation/Test sets.
@@ -258,6 +259,10 @@ def create_evaluation_dataframe(model_name: str, variation: str,
     
     # Clean column index names for better readability
     df.columns.names = ["", ""]
+    
+    # Save the DataFrame to a CSV file
+    if csv_save_path:
+        df.to_csv(csv_save_path, index=True)
     
     return df
 
