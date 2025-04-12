@@ -10,6 +10,8 @@ DL_Group37_Report.docx
 __pycache__/
 *.py[cod]
 *$py.class
+**/*Zone.Identifier
+**/*zip
 
 # virtualenv
 tf218/
@@ -25,4 +27,6 @@ checkpoint.keras
 metrics.csv
 2_Modeling_Baseline Model_DLProject_Group37.html
 2_ImagePreprocessing&DataAugmentation_DLProject_Group37.html
-ModelCallbacks/
+
+# Cannot save .keras Callbacks because of the size of the file
+**/*.keras
