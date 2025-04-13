@@ -21,7 +21,7 @@ import utilities
 import datetime
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
-from typing import Union
+from typing import Union, List
     
 # Data Manipulation & Visualization Libraries
 import numpy as np
@@ -328,7 +328,8 @@ def plot_metrics(history: Union[tf.keras.callbacks.History, pd.DataFrame], file_
     
 # ------------------------------------------------------------------------
 # Function to plot confusion matrix
-def plot_confusion_matrix(y_true, y_pred, title=None, cmap=plt.cm.Blues, file_path=None):
+def plot_confusion_matrix(y_true: np.ndarray, y_pred: np.ndarray, title: str = None, 
+                          cmap: plt.cm = plt.cm.Blues, file_path: str = None):
     """
     This function plots a confusion matrix using Matplotlib and Seaborn.
     
@@ -377,8 +378,10 @@ def plot_confusion_matrix(y_true, y_pred, title=None, cmap=plt.cm.Blues, file_pa
     plt.show()
 
 # ------------------------------------------------------------------------
-# Function to plot 5 right predictions and 5 wrong predictions (image pred, sample image of the true class, predicted class)
-def plot_predictions(model, test_data, class_names, train_dir, num_images=5, file_path=None):
+# Function to plot 5 right predictions and 5 wrong predictions 
+# (image pred, sample image of the true class, predicted class)
+def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_names: list, 
+                     train_dir: str, num_images: int = 5, file_path: str = None):
     """
     Plot 5 right predictions and 5 wrong predictions from the test data.
     
@@ -545,4 +548,80 @@ def plot_predictions(model, test_data, class_names, train_dir, num_images=5, fil
         print(f"\nPredictions plot saved to {file_path}\n")
         
     # Show the plot
+    plt.show()
+
+# ------------------------------------------------------------------------
+# Function to plot images in a row with titles
+def plot_images_from_directory(image_paths: Union[str, List[Union[str, Path]]],
+                               titles: Union[str, List[str]],
+                               num_rows: int = 1):
+    """
+    Plots images in a grid layout with titles.
+
+    Args:
+        image_paths (Union[str, List[Union[str, Path]]]): List of image file paths 
+                                                          (or Path objects) to display.
+        titles (Union[str, List[str]]): List of titles corresponding to each image.
+        num_rows (int): Number of rows to arrange the images. Default is 1.
+
+    Returns:
+        None: Displays the images in a grid layout.
+    """
+    # Ensure image_paths and titles are lists
+    if isinstance(image_paths, (str, Path)):
+        image_paths = [image_paths]
+    if isinstance(titles, str):
+        titles = [titles]
+
+    # Convert string paths to Path objects for robustness
+    image_paths = [Path(p) for p in image_paths]
+
+    # Check if the number of images matches the number of titles
+    if len(image_paths) != len(titles):
+        raise ValueError("The number of image paths and titles must be the same.")
+
+    # Calculate the number of columns needed
+    num_images = len(image_paths)
+    num_cols = (num_images + num_rows - 1) // num_rows
+
+    # Create a figure with the specified number of rows and columns
+    # Adjust figsize dynamically based on columns and rows
+    fig, axes = plt.subplots(num_rows, num_cols, figsize=(num_cols * 4, num_rows * 4.5))
+
+    # Ensure 'axes' is always a flat NumPy array, even if only one subplot is created
+    # np.ravel handles single Axes object, 1D array, and 2D array correctly
+    axes = np.ravel(axes)
+
+    # Iterate through the images and plot them
+    for i, (image_path, title) in enumerate(zip(image_paths, titles)):
+        try:
+            # Load the image using PIL
+            image = Image.open(image_path)
+
+            # Display the image on the i-th Axes object
+            axes[i].imshow(image)
+            # Set the title for the i-th Axes object
+            axes[i].set_title(title, fontsize=10, fontweight='bold')
+            # Remove axis for cleaner visualization
+            axes[i].axis('off')
+            
+        except FileNotFoundError:
+            print(f"Warning: Image file not found at {image_path}. Skipping.")
+            axes[i].text(0.5, 0.5, 'Image Not Found', horizontalalignment='center', verticalalignment='center')
+            axes[i].set_title(title, fontsize=10, fontweight='bold', color='red')
+            axes[i].axis('off')
+        
+        except Exception as e:
+            print(f"Warning: Could not load or plot image {image_path}. Error: {e}")
+            axes[i].text(0.5, 0.5, 'Error Loading', horizontalalignment='center', verticalalignment='center')
+            axes[i].set_title(title, fontsize=10, fontweight='bold', color='red')
+            axes[i].axis('off')
+
+
+    # Hide any unused subplots at the end
+    for j in range(num_images, len(axes)):
+        axes[j].axis('off')
+
+    # Adjust layout to prevent titles/labels overlapping
+    plt.tight_layout()
     plt.show()
