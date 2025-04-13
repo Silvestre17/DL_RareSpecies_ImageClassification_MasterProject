@@ -14,11 +14,14 @@
 
 # System Libraries  
 import os
+import random
+from pathlib import Path
 import importlib
 import utilities
 import datetime
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
+from typing import Union
     
 # Data Manipulation & Visualization Libraries
 import numpy as np
@@ -31,13 +34,13 @@ from PIL import Image
 # Setting seaborn style
 sns.set_theme(style="white")
 
-
 # Machine Learning Libraries
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
 # TensorFlow Libraries
 import tensorflow as tf
+from tensorflow.keras.preprocessing import image as keras_image             # Use alias to avoid conflict
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 
@@ -156,14 +159,12 @@ def load_images_from_directory(# Directory paths
                                                 seed=seed, shuffle=False,  # No shuffling for test data
                                                 crop_to_aspect_ratio=crop_to_aspect_ratio, pad_to_aspect_ratio=pad_to_aspect_ratio)
     
-    
-    # --- Optimize Data Pipelines with Prefetch ---
-    # Apply prefetch to all datasets for performance optimization
-    # Source: https://www.tensorflow.org/guide/data_performance#prefetching
-    train_datagen = train_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
-    val_datagen = val_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
-    test_datagen = test_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
-    
+    # # --- Optimize Data Pipelines with Prefetch ---
+    # # Apply prefetch to all datasets for performance optimization
+    # # Source: https://www.tensorflow.org/guide/data_performance#prefetching
+    # train_datagen = train_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
+    # val_datagen = val_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
+    # test_datagen = test_datagen.prefetch(buffer_size=tf.data.AUTOTUNE)
     
     # Return the data generators
     return train_datagen, val_datagen, test_datagen
@@ -215,7 +216,7 @@ def display_side_by_side(*args, super_title: str, titles=cycle([''])):
 # Function to create a DataFrame for model evaluation metrics
 def create_evaluation_dataframe(model_name: str, variation: str, 
                                 train_metrics: dict, val_metrics: dict, test_metrics: dict,
-                                train_time: float, round_decimals: int = 4, csv_save_path: str = None) -> pd.DataFrame:
+                                train_time: Union[float, str] = None, round_decimals: int = 4, csv_save_path: str = None) -> pd.DataFrame:
     """
     Create a MultiIndex DataFrame for model evaluation metrics with row and column levels.
 
@@ -225,7 +226,7 @@ def create_evaluation_dataframe(model_name: str, variation: str,
         train_metrics(dict) : Dictionary with keys: 'accuracy', 'precision', 'recall', 'f1_score', 'auc'.
         val_metrics(dict) : Same structure as train_metrics, for the validation set.
         test_metrics(dict) : Same structure as train_metrics, for the test set.
-        train_time(float) : Time of execution in seconds.
+        train_time(Union[float, str]) : Time of execution in seconds. If None, it will be '' in the DataFrame.
         round_decimals(int, optional) : Number of decimal places to round the metrics (default is 4).
         csv_save_path(str, optional) : Path to save the DataFrame as a CSV file (default is None, no saving).
 
@@ -252,7 +253,14 @@ def create_evaluation_dataframe(model_name: str, variation: str,
     df = pd.DataFrame(data, columns=column_index)
     
     # Add time of execution column
-    df.insert(0, ("", "Time of Execution"), round(train_time, 2))                                    # Round time to 2 decimal places
+    if train_time is None:
+        # If train_time is None, set it to an empty string
+        train_time = ''
+    else:
+        # Round time to 2 decimal places
+        train_time = round(train_time, 2)
+    # Insert time of execution at the beginning of the DataFrame
+    df.insert(0, ("", "Time of Execution"), train_time)
     
     # Set row MultiIndex: (Model, Variation)
     df.index = pd.MultiIndex.from_tuples([(model_name, variation)], names=["Model", "Variation"])
@@ -270,10 +278,10 @@ def create_evaluation_dataframe(model_name: str, variation: str,
 
 # ------------------------------------------------------------------------
 # Function to plot metrics
-def plot_metrics(history: tf.keras.callbacks.History, file_path=None, model_name=None):
+def plot_metrics(history: Union[tf.keras.callbacks.History, pd.DataFrame], file_path=None, model_name=None):
     """Plots training and validation metrics.
     Args:
-        history (History): Keras History object containing training metrics.
+        history (Union[History, pd.DataFrame]): Keras History object or DataFrame containing training metrics.
         file_path (str): Path to save the plot. If None, the plot is displayed only.
         model_name (str): Name of the model for the title.
     Returns:
@@ -287,13 +295,18 @@ def plot_metrics(history: tf.keras.callbacks.History, file_path=None, model_name
     
     # Iterate through the metrics and plot them
     for i, (metric, title) in enumerate(metrics):
-        ax[i].plot(history.history[metric], label='Train', color='#22c1c3')
-        ax[i].plot(history.history[f'val_{metric}'], label='Val', color='#090979')
+        if type(history) == tf.keras.callbacks.History:
+            ax[i].plot(history.history[metric], label='Train', color='#22c1c3')
+            ax[i].plot(history.history[f'val_{metric}'], label='Val', color='#090979')
+        else:
+            # Assuming history is a DataFrame
+            ax[i].plot(history[metric], label='Train', color='#22c1c3')
+            ax[i].plot(history[f'val_{metric}'], label='Val', color='#090979')
         ax[i].set_title(title, fontsize=14, fontweight='bold')
-        ax[i].set_xlabel('Epoch', fontsize=12)
-        ax[i].set_ylabel(title, fontsize=12)
+        ax[i].set_xlabel('Epoch', fontsize=10, fontweight='bold')
+        ax[i].set_ylabel(title, fontsize=10, fontweight='bold')
         ax[i].legend()
-        ax[i].set_yticklabels([f'{int(t*100)}%' if metric != 'loss' else t for t in ax[i].get_yticks()])
+        ax[i].set_yticklabels([f'{int(t*100)}%' if metric != 'loss' else round(t,2) for t in ax[i].get_yticks()])
         
         # Remove the top and right spines
         sns.despine(top=True, right=True)
@@ -365,54 +378,163 @@ def plot_confusion_matrix(y_true, y_pred, title=None, cmap=plt.cm.Blues, file_pa
 
 # ------------------------------------------------------------------------
 # Function to plot 5 right predictions and 5 wrong predictions (image pred, sample image of the true class, predicted class)
-def plot_predictions(model, test_data, num_images=5, file_path=None):
+def plot_predictions(model, test_data, class_names, train_dir, num_images=5, file_path=None):
     """
     Plot 5 right predictions and 5 wrong predictions from the test data.
     
     Args:
         model (tf.keras.Model): Trained model for making predictions.
         test_data (tf.data.Dataset): Test dataset containing images and labels.
+        class_names (list): List of class names corresponding to the labels.
+        train_dir (str): Directory where training images are stored.
         num_images (int): Number of images to plot. Default is 5.
         file_path (str): Path to save the plot. If None, the plot is displayed only.
         
     Returns:
         None: Displays or saves the plot.
     """
-    # Get the true labels and predicted labels
-    y_true = np.concatenate([y.numpy() for _, y in test_data], axis=0)
-    y_pred = np.concatenate([model.predict(x) for x, _ in test_data], axis=0)
+    # --- 1. Data Collection and Prediction ---
+    images_list = []
+    labels_list = []
+
+    # Iterate through the dataset to collect all samples
+    for images, labels in test_data:
+        images_list.append(images.numpy()) # Convert tensor to numpy array
+        labels_list.append(labels.numpy())  
+
+    # Check if data was loaded
+    if not images_list or not labels_list:
+        print("Error: No data collected from test_data.")
+        return
+
+    # Concatenate numpy arrays
+    try:
+        images_all = np.concatenate(images_list, axis=0)
+        labels_all = np.concatenate(labels_list, axis=0)
+    except ValueError as e:
+        print(f"Error concatenating data: {e}")
+        print("Please ensure all batches have compatible shapes.")
+        return
     
-    # Get the predicted class indices
-    y_pred_classes = np.argmax(y_pred, axis=1)
-    
-    # Get the true class indices
-    y_true_classes = np.argmax(y_true, axis=1)
-    
-    # Get the indices of right and wrong predictions
-    right_indices = np.where(y_pred_classes == y_true_classes)[0]
-    wrong_indices = np.where(y_pred_classes != y_true_classes)[0]
-    
-    # Select random indices for right and wrong predictions
-    right_indices = np.random.choice(right_indices, num_images, replace=False)
-    wrong_indices = np.random.choice(wrong_indices, num_images, replace=False)
-    
-    # Create a figure with 2 subplots (1 row, 2 columns)
-    fig, ax = plt.subplots(2, num_images, figsize=(20, 10))
-    
-    # Plot right predictions
-    for i in range(num_images):
-        ax[0, i].imshow(test_data[right_indices[i]][0][0].numpy().astype(np.uint8))
-        ax[0, i].set_title(f'True: {y_true_classes[right_indices[i]]}, Pred: {y_pred_classes[right_indices[i]]}')
+    # Get true class indices (assuming one-hot encoding)
+    if labels_all.ndim > 1 and labels_all.shape[1] > 1:
+        y_true_indices = np.argmax(labels_all, axis=1)
+
+    # Handle integer labels directly
+    elif labels_all.ndim == 1:
+         y_true_indices = labels_all
+    else:
+        print("Error: Unexpected label format.")
+        return
+
+    # Predict on the dataset
+    y_pred_probs = model.predict(test_data, verbose=1)
+    if y_pred_probs.shape[0] != y_true_indices.shape[0]:
+         print(f"Warning: Number of predictions ({y_pred_probs.shape[0]}) does not match number of labels ({y_true_indices.shape[0]}). Check dataset integrity.")
+         # Fallback to predicting on the gathered numpy array if counts mismatch
+         if images_all.shape[0] == y_true_indices.shape[0]:
+              print("Retrying prediction on gathered numpy array...")
+              y_pred_probs = model.predict(images_all, batch_size=test_data.batch_size, verbose=1) # Use original batch size
+         else:
+              print("Error: Cannot align predictions with labels.")
+              return
+
+    y_pred_indices = np.argmax(y_pred_probs, axis=1)
+
+    # Ensure number of predictions matches labels
+    if y_pred_indices.shape[0] != y_true_indices.shape[0]:
+         print("Error: Mismatch between number of predictions and true labels after prediction.")
+         return
+
+    # --- 2. Identify Correct/Incorrect Predictions ---
+    correct_indices = np.where(y_pred_indices == y_true_indices)[0]
+    incorrect_indices = np.where(y_pred_indices != y_true_indices)[0]
+
+    print(f"Found {len(correct_indices)} correct and {len(incorrect_indices)} incorrect predictions.")
+
+    # Check if enough samples are available
+    if len(correct_indices) < num_images or len(incorrect_indices) < num_images:
+        print(f"Warning: Not enough correct ({len(correct_indices)}) or incorrect ({len(incorrect_indices)}) examples to sample {num_images}. Adjusting num_images.")
+        num_images = min(len(correct_indices), len(incorrect_indices), num_images)
+        if num_images == 0:
+            print("Error: No examples to plot.")
+            return
+
+    # Randomly sample indices
+    correct_sample_indices = np.random.choice(correct_indices, num_images, replace=False)
+    incorrect_sample_indices = np.random.choice(incorrect_indices, num_images, replace=False)
+
+    # --- 3. Plotting ---
+    # Create figure: 3 rows (Correct, Incorrect, True Example) x num_images columns
+    fig, ax = plt.subplots(3, num_images, figsize=(num_images * 4, 12))
+    fig.suptitle('Model Predictions Analysis', fontsize=18, fontweight='bold')          
+
+    # Plot Correct Predictions (Row 0)
+    ax[0, 0].set_ylabel('Correct\nPredictions', fontsize=12, fontweight='bold')
+    for i, idx in enumerate(correct_sample_indices):
+        true_class_name = class_names[y_true_indices[idx]]
+        pred_class_name = class_names[y_pred_indices[idx]] # Should be same as true
+        # Ensure image data is in displayable format (0-255, uint8)
+        img_display = images_all[idx]
+        if img_display.max() <= 1.0:            # Check if rescaled
+             img_display = (img_display * 255)
+        # Display the image
+        ax[0, i].imshow(img_display.astype(np.uint8))
+        # Set title with predicted and true class names
+        ax[0, i].set_title(f"Pred: {pred_class_name}\n(True: {true_class_name})", fontsize=10, color='green')
+        # Remove axis for cleaner visualization
         ax[0, i].axis('off')
-    
-    # Plot wrong predictions
-    for i in range(num_images):
-        ax[1, i].imshow(test_data[wrong_indices[i]][0][0].numpy().astype(np.uint8))
-        ax[1, i].set_title(f'True: {y_true_classes[wrong_indices[i]]}, Pred: {y_pred_classes[wrong_indices[i]]}')
+
+    # Plot Incorrect Predictions (Row 1) and True Class Examples (Row 2)
+    ax[1, 0].set_ylabel('Incorrect\nPredictions', fontsize=12, fontweight='bold')
+    ax[2, 0].set_ylabel('Example of\nTrue Class', fontsize=12, fontweight='bold')
+    train_dir_path = Path(train_dir)                                    # Ensure train_dir is a Path object
+
+    for i, idx in enumerate(incorrect_sample_indices):
+        true_class_idx = y_true_indices[idx]
+        pred_class_idx = y_pred_indices[idx]
+        true_class_name = class_names[true_class_idx]
+        pred_class_name = class_names[pred_class_idx]
+
+        # Plot the incorrectly predicted image (Row 1)
+        img_display = images_all[idx]
+        if img_display.max() <= 1.0: # Check if rescaled
+             img_display = (img_display * 255)
+        ax[1, i].imshow(img_display.astype(np.uint8))
+        ax[1, i].set_title(f"Pred: {pred_class_name}\n(True: {true_class_name})", fontsize=10, color='red')
         ax[1, i].axis('off')
-        
-    # Set the title for the entire figure
-    fig.suptitle('Right and Wrong Predictions', fontsize=16, fontweight='bold')
+
+        # Find and plot an example image of the true class (Row 2)
+        true_class_dir = train_dir_path / true_class_name
+        example_img = None
+        if true_class_dir.is_dir():
+            try:
+                # List images and pick one randomly
+                possible_images = list(true_class_dir.glob('*[.jpg][.jpeg][.png]')) # Common image extensions
+                if possible_images:
+                    example_img_path = random.choice(possible_images)
+                    # Load the example image
+                    img = keras_image.load_img(example_img_path, target_size=(images_all.shape[1], images_all.shape[2])) # Use original target size
+                    example_img = keras_image.img_to_array(img)
+                else:
+                     print(f"Warning: No images found in {true_class_dir}")
+            except Exception as e:
+                print(f"Error loading example image from {true_class_dir}: {e}")
+        else:
+             print(f"Warning: Training directory for true class '{true_class_name}' not found at {true_class_dir}")
+
+        # Display the example image or a placeholder if not found
+        if example_img is not None:
+            # Display the example image
+            ax[2, i].imshow(example_img.astype(np.uint8))
+            # Set title with the true class name
+            ax[2, i].set_title(f"Example of:\n{true_class_name}", fontsize=10, color='orange')
+        else:
+            # Placeholder if image not found
+            ax[2, i].text(0.5, 0.5, 'No Example Found', horizontalalignment='center', verticalalignment='center')
+            ax[2, i].set_title(f"Example of:\n{true_class_name}", fontsize=10, color='gray')
+        # Remove axis for cleaner visualization
+        ax[2, i].axis('off')
     
     # Adjust layout
     plt.tight_layout()
@@ -420,27 +542,7 @@ def plot_predictions(model, test_data, num_images=5, file_path=None):
     # Save the figure if a file path is provided
     if file_path:
         fig.savefig(file_path, dpi=300, bbox_inches='tight')
-        print(f"Predictions plot saved to {file_path}")
+        print(f"\nPredictions plot saved to {file_path}\n")
         
     # Show the plot
     plt.show()
-
-    
-# ------------------------------------------------------------------------
-# Function to clear all variables in the current namespace
-def clear_all_variables():
-    """
-    Clear all variables in the current namespace.
-    
-    This function is useful for resetting the environment and freeing up memory.
-    """
-    # Clear all variables in the current namespace
-    for name in dir():
-        if not name.startswith('_'):
-            del globals()[name]
-    print(f"All variables cleared successfully ({datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')})")
-    
-    # Clear the console
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("Console cleared successfully")
-    print(f"Console cleared successfully ({datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')})")
