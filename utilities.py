@@ -453,7 +453,29 @@ def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_na
     correct_indices = np.where(y_pred_indices == y_true_indices)[0]
     incorrect_indices = np.where(y_pred_indices != y_true_indices)[0]
 
-    print(f"Found {len(correct_indices)} correct and {len(incorrect_indices)} incorrect predictions.")
+    print(f"Found \033[1m{len(correct_indices)} correct\033[0m and \033[1m{len(incorrect_indices)} incorrect\033[0m predictions.\n")
+
+    # --- Print Top 5 Most/Least Accurate Classes ---
+    # Count correct predictions per class
+    correct_per_class = np.zeros(len(class_names), dtype=int)
+    total_per_class = np.zeros(len(class_names), dtype=int)
+    for true_idx, pred_idx in zip(y_true_indices, y_pred_indices):
+        total_per_class[true_idx] += 1
+        if true_idx == pred_idx:
+            correct_per_class[true_idx] += 1
+    # Avoid division by zero
+    # Source: https://numpy.org/doc/stable/reference/generated/numpy.errstate.html
+    with np.errstate(divide='ignore', invalid='ignore'):
+        acc_per_class = np.where(total_per_class > 0, correct_per_class / total_per_class, 0)
+    # Get top 5 most and least accurate classes
+    top5_idx = np.argsort(-acc_per_class)[:5]
+    bottom5_idx = np.argsort(acc_per_class)[:5]
+    print("\033[1mTop 5 classes with most correct predictions:\033[0m")
+    for idx in top5_idx:
+        print(f"  \033[1m{class_names[idx]}:\033[0m {correct_per_class[idx]}/{total_per_class[idx]} ({acc_per_class[idx]*100:.1f}%)")
+    print("\033[1mTop 5 classes with least correct predictions:\033[0m")
+    for idx in bottom5_idx:
+        print(f"  \033[1m{class_names[idx]}:\033[0m {correct_per_class[idx]}/{total_per_class[idx]} ({acc_per_class[idx]*100:.1f}%)")
 
     # Check if enough samples are available
     if len(correct_indices) < num_images or len(incorrect_indices) < num_images:
@@ -468,30 +490,27 @@ def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_na
     incorrect_sample_indices = np.random.choice(incorrect_indices, num_images, replace=False)
 
     # --- 3. Plotting ---
-    # Create figure: 3 rows (Correct, Incorrect, True Example) x num_images columns
-    fig, ax = plt.subplots(3, num_images, figsize=(num_images * 4, 12))
-    fig.suptitle('Model Predictions Analysis', fontsize=18, fontweight='bold')          
+    # Create figure: 4 rows (Correct, Incorrect, True Example, Pred Example) x num_images columns
+    fig, ax = plt.subplots(4, num_images, figsize=(num_images * 4, 16))
+    fig.suptitle('Model Predictions Analysis\n', fontsize=18, fontweight='bold')          
 
     # Plot Correct Predictions (Row 0)
     ax[0, 0].set_ylabel('Correct\nPredictions', fontsize=12, fontweight='bold')
     for i, idx in enumerate(correct_sample_indices):
         true_class_name = class_names[y_true_indices[idx]]
         pred_class_name = class_names[y_pred_indices[idx]] # Should be same as true
-        # Ensure image data is in displayable format (0-255, uint8)
         img_display = images_all[idx]
-        if img_display.max() <= 1.0:            # Check if rescaled
-             img_display = (img_display * 255)
-        # Display the image
+        if img_display.max() <= 1.0:
+            img_display = (img_display * 255)
         ax[0, i].imshow(img_display.astype(np.uint8))
-        # Set title with predicted and true class names
         ax[0, i].set_title(f"Pred: {pred_class_name}\n(True: {true_class_name})", fontsize=10, color='green')
-        # Remove axis for cleaner visualization
         ax[0, i].axis('off')
 
-    # Plot Incorrect Predictions (Row 1) and True Class Examples (Row 2)
+    # Plot Incorrect Predictions (Row 1), True Class Examples (Row 2), Pred Class Examples (Row 3)
     ax[1, 0].set_ylabel('Incorrect\nPredictions', fontsize=12, fontweight='bold')
     ax[2, 0].set_ylabel('Example of\nTrue Class', fontsize=12, fontweight='bold')
-    train_dir_path = Path(train_dir)                                    # Ensure train_dir is a Path object
+    ax[3, 0].set_ylabel('Example of\nPred Class', fontsize=12, fontweight='bold')
+    train_dir_path = Path(train_dir)
 
     for i, idx in enumerate(incorrect_sample_indices):
         true_class_idx = y_true_indices[idx]
@@ -499,55 +518,58 @@ def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_na
         true_class_name = class_names[true_class_idx]
         pred_class_name = class_names[pred_class_idx]
 
-        # Plot the incorrectly predicted image (Row 1)
+        # Row 1: Plot the incorrectly predicted image
         img_display = images_all[idx]
-        if img_display.max() <= 1.0: # Check if rescaled
-             img_display = (img_display * 255)
+        if img_display.max() <= 1.0:
+            img_display = (img_display * 255)
         ax[1, i].imshow(img_display.astype(np.uint8))
         ax[1, i].set_title(f"Pred: {pred_class_name}\n(True: {true_class_name})", fontsize=10, color='red')
         ax[1, i].axis('off')
 
-        # Find and plot an example image of the true class (Row 2)
+        # Row 2: Example of True Class
         true_class_dir = train_dir_path / true_class_name
         example_img = None
         if true_class_dir.is_dir():
             try:
-                # List images and pick one randomly
-                possible_images = list(true_class_dir.glob('*[.jpg][.jpeg][.png]')) # Common image extensions
+                possible_images = list(true_class_dir.glob('*[.jpg][.jpeg][.png]'))
                 if possible_images:
                     example_img_path = random.choice(possible_images)
-                    # Load the example image
-                    img = keras_image.load_img(example_img_path, target_size=(images_all.shape[1], images_all.shape[2])) # Use original target size
+                    img = keras_image.load_img(example_img_path, target_size=(images_all.shape[1], images_all.shape[2]))
                     example_img = keras_image.img_to_array(img)
-                else:
-                     print(f"Warning: No images found in {true_class_dir}")
             except Exception as e:
                 print(f"Error loading example image from {true_class_dir}: {e}")
-        else:
-             print(f"Warning: Training directory for true class '{true_class_name}' not found at {true_class_dir}")
-
-        # Display the example image or a placeholder if not found
         if example_img is not None:
-            # Display the example image
             ax[2, i].imshow(example_img.astype(np.uint8))
-            # Set title with the true class name
-            ax[2, i].set_title(f"Example of:\n{true_class_name}", fontsize=10, color='orange')
+            ax[2, i].set_title(f"Example of True:\n{true_class_name}", fontsize=10, color='blue')
         else:
-            # Placeholder if image not found
             ax[2, i].text(0.5, 0.5, 'No Example Found', horizontalalignment='center', verticalalignment='center')
-            ax[2, i].set_title(f"Example of:\n{true_class_name}", fontsize=10, color='gray')
-        # Remove axis for cleaner visualization
+            ax[2, i].set_title(f"Example of True:\n{true_class_name}", fontsize=10, color='gray')
         ax[2, i].axis('off')
-    
-    # Adjust layout
+
+        # Row 3: Example of Predicted Class
+        pred_class_dir = train_dir_path / pred_class_name
+        pred_example_img = None
+        if pred_class_dir.is_dir():
+            try:
+                possible_pred_images = list(pred_class_dir.glob('*[.jpg][.jpeg][.png]'))
+                if possible_pred_images:
+                    pred_example_img_path = random.choice(possible_pred_images)
+                    pred_img = keras_image.load_img(pred_example_img_path, target_size=(images_all.shape[1], images_all.shape[2]))
+                    pred_example_img = keras_image.img_to_array(pred_img)
+            except Exception as e:
+                print(f"Error loading example image from {pred_class_dir}: {e}")
+        if pred_example_img is not None:
+            ax[3, i].imshow(pred_example_img.astype(np.uint8))
+            ax[3, i].set_title(f"Example of Pred:\n{pred_class_name}", fontsize=10, color='orange')
+        else:
+            ax[3, i].text(0.5, 0.5, 'No Example Found', horizontalalignment='center', verticalalignment='center')
+            ax[3, i].set_title(f"Example of Pred:\n{pred_class_name}", fontsize=10, color='gray')
+        ax[3, i].axis('off')
+
     plt.tight_layout()
-    
-    # Save the figure if a file path is provided
     if file_path:
         fig.savefig(file_path, dpi=300, bbox_inches='tight')
         print(f"\nPredictions plot saved to {file_path}\n")
-        
-    # Show the plot
     plt.show()
 
 # ------------------------------------------------------------------------
