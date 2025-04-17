@@ -30,3 +30,4 @@ metrics.csv
 
 # Cannot save .keras Callbacks because of the size of the file
 **/*.keras
+**/*.html

@@ -1,4 +1,0 @@
-,,,Train,Train,Train,Train,Train,Validation,Validation,Validation,Validation,Validation,Test,Test,Test,Test,Test
-,,Time of Execution,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC
-Model,Variation,,,,,,,,,,,,,,,,
-EfficientNetV2B0,SMOTE | Grayscale=F | Contrast=F | Saturation=T | Adam=0.001,1516.25,0.0141,0.0,0.0,0.008,0.5868,0.0209,0.0,0.0,0.0053,0.5945,0.02,0.0,0.0,0.0021,0.5979
