@@ -1,0 +1,4 @@
+,,,Train,Train,Train,Train,Train,Validation,Validation,Validation,Validation,Validation,Test,Test,Test,Test,Test
+,,Time of Execution,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC
+Model,Variation,,,,,,,,,,,,,,,,
+Baseline Model,SMOTE | Grayscale=F | Contrast=T | Saturation=F | Adam=0.001,504.63,0.0943,0.664,0.0069,0.068,0.7951,0.1444,0.8333,0.0083,0.097,0.8355,0.1159,0.5,0.0042,0.0754,0.8379
