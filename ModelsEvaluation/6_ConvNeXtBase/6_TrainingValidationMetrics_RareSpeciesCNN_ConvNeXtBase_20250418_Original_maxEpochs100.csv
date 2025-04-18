@@ -1,0 +1,4 @@
+,,,Train,Train,Train,Train,Train,Validation,Validation,Validation,Validation,Validation,Test,Test,Test,Test,Test
+,,Time of Execution,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC
+Model,Variation,,,,,,,,,,,,,,,,
+ConvNeXtBase,Original | Grayscale=F | Contrast=F | Saturation=F | Adam=0.001,3122.63,0.948,0.972,0.9123,0.9477,0.9997,0.8205,0.9014,0.7788,0.8002,0.9836,0.8482,0.9093,0.8023,0.8273,0.9833
