@@ -1,0 +1,4 @@
+,,,Train,Train,Train,Train,Train,Validation,Validation,Validation,Validation,Validation,Test,Test,Test,Test,Test
+,,Time of Execution,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC
+Model,Variation,,,,,,,,,,,,,,,,
+VGG19,Original | Grayscale=F | Contrast=T | Saturation=F | Adam=0.001,508.68,0.7112,0.8322,0.6231,0.7064,0.9848,0.6027,0.7633,0.5142,0.5574,0.9466,0.598,0.7407,0.5313,0.5636,0.9417
