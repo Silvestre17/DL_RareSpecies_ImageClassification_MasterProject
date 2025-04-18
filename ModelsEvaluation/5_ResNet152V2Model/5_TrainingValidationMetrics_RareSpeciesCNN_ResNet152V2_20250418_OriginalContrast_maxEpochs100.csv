@@ -1,0 +1,4 @@
+,,,Train,Train,Train,Train,Train,Validation,Validation,Validation,Validation,Validation,Test,Test,Test,Test,Test
+,,Time of Execution,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC
+Model,Variation,,,,,,,,,,,,,,,,
+ResNet152V2,Original | Grayscale=F | Contrast=T | Saturation=F | Adam=0.001,317.29,0.8139,0.9082,0.7158,0.8063,0.9965,0.6119,0.7767,0.5225,0.5651,0.9481,0.5913,0.7569,0.5296,0.5394,0.9456
