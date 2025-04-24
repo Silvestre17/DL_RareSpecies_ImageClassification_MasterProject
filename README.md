@@ -18,7 +18,7 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
 
 > [**📦 Dataset (Splitted)**](https://drive.usercontent.google.com/download?id=1dmr2cGxgM-kp1aXlmd9cQzVCkcl4JTFo&export=download&authuser=0)
 
-> [**📦 Dataset (Innovative Approach)**](https://drive.usercontent.google.com/u/0/uc?id=1IJILAN1uppcLl_Z4B_Qki3x-oFV13CX6&export=download&authuser=0)
+> [**📦 Dataset (Innovative Approach)**](https://drive.usercontent.google.com/u/0/uc?id=1Gfzm6mdhQ75cAzLQAK_gf-NFKk1KDRXo&export=download&authuser=0)
 
 <br>
 
