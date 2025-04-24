@@ -1,42 +1,53 @@
-For all this talk, whenever you give me code in python, comment on it and always do it in English.
+For all this talk, whenever you give me code in python, comment on it and always do it in English. 
+
 As for text, always write in English, unless I tell you otherwise, and then write in well-written Portuguese without Brazilianisms.
+
 As for writing, you write in simple but academic English and follow the following rules:
-Tone- Use a direct, personable, and casual tone. Be straightforward and helpful, not overly upbeat or exuberant.
-Concise and Clear- Be concise and informative. Keep sentences and paragraphs short.
-No AI Buzzwords- Use clear, jargon-free language. Focus on clarity.
-Active voice- Write in a way that feels natural and engaging
-No over explaining- Just deliver the response, no unnecessary commentary.
-Fresh research- If available, pull in recent info from the web.
-Criticism Allowed- ChatGPT should push back when needed, not just agree
-Additional Guidelines:
-Acknowledge and correct any past errors.
-Use the metric system for measurements and calculations.
-Research answers when necessary before responding.
+- **Tone**- Use a direct, personable, and casual tone. Be straightforward and helpful, not overly upbeat or exuberant.
+- **Concise and Clear**- Be concise and informative. Keep sentences and paragraphs short.
+- **No AI Buzzwords**- Use clear, jargon-free language. Focus on clarity.
+- **Active voice**- Write in a way that feels natural and engaging
+- **No over explaining**- Just deliver the response, no unnecessary commentary.
+- **Fresh research**- If available, pull in recent info from the web.
+- **Criticism Allowed**- ChatGPT should push back when needed, not just agree
+
+---
+
+**Additional Guidelines:**
+- Acknowledge and correct any past errors.
+- Use the metric system for measurements and calculations.
+- Research answers when necessary before responding.
+
+---
+
 Please note that I only use better formatting when I'm not improving sentences or writing parts of my report, which you should always write in simple but academic and well-written longhand.
-Deep Learning Group Project
-Master’s Degree in Data Science 24/25
-In this project, you will develop a deep-learning model to classify rare species based on their images. The dataset used in this project consists of images of rare species sourced from the Encyclopedia of Life (EOL) and curated as part of the BioCLIP: A Vision Foundation Model for the Tree of Life [1] study. Each image is associated with metadata, including its kingdom, phylum, and family.
-Your objective is to build a model that predicts the family of a given species based on its image. The dataset includes a structured CSV file containing the file path of each image alongside its corresponding labels. As part of the project, you will need to create your own data splits into training, validation, and test sets. The training and validation sets will be used to develop and fine-tune your model, while the test set should be kept separate to evaluate its performance on unseen data.
-Like almost every Machine Learning task, there is no “right solution” for this problem. You can create your model however you wish, as long as you do not look at the test set. To develop your model, feel free to apply different pre-processing techniques, test distinct combinations of hyperparameters, and make use of all the concepts covered in the course. The project should be done in Python 3. Naturally, you can (and should) use available libraries, such as Pandas, Keras, etc. Just make sure to credit everything you use in the report appropriately. Also, while the approaches you try are likely to have already been tried by someone else, you should not plagiarise anyone’s code.
-Report
-In addition to your code, you should deliver a short scientific report (maximum 5 pages + bibliography, if applicable) with the following information:
-Group identification of each member’s student ID and name.
-A clear description of your best approach (why it is the best, etc..) and the steps you followed for arriving at that model, including (when applicable):
+
+Deep Learning Group Project 
+Master’s Degree in Data Science 24/25 
+In this project, you will develop a deep-learning model to classify rare species based on their images. The dataset used in this project consists of images of rare species sourced from the Encyclopedia of Life (EOL) and curated as part of the BioCLIP: A Vision Foundation Model for the Tree of Life [1] study. Each image is associated with metadata, including its kingdom, phylum, and family. 
+Your objective is to build a model that predicts the family of a given species based on its image. The dataset includes a structured CSV file containing the file path of each image alongside its corresponding labels. As part of the project, you will need to create your own data splits into training, validation, and test sets. The training and validation sets will be used to develop and fine-tune your model, while the test set should be kept separate to evaluate its performance on unseen data. 
+Like almost every Machine Learning task, there is no “right solution” for this problem. You can create your model however you wish, as long as you do not look at the test set. To develop your model, feel free to apply different pre-processing techniques, test distinct combinations of hyperparameters, and make use of all the concepts covered in the course. The project should be done in Python 3. Naturally, you can (and should) use available libraries, such as Pandas, Keras, etc. Just make sure to credit everything you use in the report appropriately. Also, while the approaches you try are likely to have already been tried by someone else, you should not plagiarise anyone’s code. 
+Report 
+In addition to your code, you should deliver a short scientific report (maximum 5 pages + bibliography, if applicable) with the following information: 
+Group identification of each member’s student ID and name.  
+A clear description of your best approach (why it is the best, etc..) and the steps you followed for arriving at that model, including (when applicable): 
 •	The applied pre-processing.
 •	The model/approach implemented.
-Your experimental setup:
+-	Your experimental setup:
 •	The list of Python libraries (for example, "We used Keras to build the model and Keras Tuner to hyperparameter tuning") needed to run your code and any other implementation details that can be relevant to reproduce your experiment.
-How you evaluated your approach:
+-	How you evaluated your approach:
 •	A brief description of your intermediate models (what have you tested and why it has not worked compared to your best approach, i.e. "The standard scaler worked better instead of MinMax, etc..").
 •	An evaluation of your best approach, which should appropriate metrics. Feel free to include results for other intermediate approaches you tried.
-A summary of the results reported:
+-	A summary of the results reported:
+
 A brief error analysis: what are the most common errors made by your approach? Feel free to illustrate it with a confusion matrix and/or specific examples. (Maybe images of wrong classifications with the corresponding conclusion why)
-Future work:
+-	Future work:
 •	If you had more time, what would you have tried?
-The report must be written in English.
-Deliverables:
-By the 30th of April, you must deliver your source code used and a report that discusses the previous points and where you explain your choices. You must deliver your work through Moodle (a Turnitin assignment will be available soon). The required files must be uploaded in a unique zip/rar file named with the group number (e.g., GROUP_1.rar). For this purpose, we have created an Excel file you must fill in with group information. Each group MUST consist of 5 students. There are no exceptions to this rule.
-The grade of the project will be obtained by evaluating the following criteria:
+
+The report must be written in English. 
+Deliverables: 
+By the 30th of April, you must deliver your source code used and a report that discusses the previous points and where you explain your choices. You must deliver your work through Moodle (a Turnitin assignment will be available soon). The required files must be uploaded in a unique zip/rar file named with the group number (e.g., GROUP_1.rar). For this purpose, we have created an Excel file you must fill in with group information. Each group MUST consist of 5 students. There are no exceptions to this rule. 
+The grade of the project will be obtained by evaluating the following criteria:  
 •	Quality of your image/data pre-processing, such as image transformations. (3 points)
 •	Ability to design and implement Deep Learning models. (3 points)
 •	Ability to utilize the pre-trained models and correctly adapt them to your task. (2 points)
@@ -46,13 +57,15 @@ The grade of the project will be obtained by evaluating the following criteria:
 •	The performance of your model, and the metrics used. (2 points)
 •	Clarity and quality of the projects code. (2 points)
 •	Comparative evaluations against other groups’ solutions.
-Beside the criteria mentioned above, your group will be compared and evaluated against other group’s solutions.
-The collaboration between groups and the use of AI tools to generate code is strictly forbidden. Not respecting these rules will result in the immediate reprobation of the curricular unit in both epochs.
-The fact that you are working in a group does not imply that all the components of the group will receive the same grade.
+
+Beside the criteria mentioned above, your group will be compared and evaluated against other group’s solutions.  
+The collaboration between groups and the use of AI tools to generate code is strictly forbidden. Not respecting these rules will result in the immediate reprobation of the curricular unit in both epochs. 
+The fact that you are working in a group does not imply that all the components of the group will receive the same grade. 
+
 [1]: Stevens, S., Wu, J., Thompson, M. J., Campolongo, E. G., Song, C. H., Carlyn, D. E., ... & Su, Y. (2024). Bioclip: A vision foundation model for the tree
 of life. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (pp. 19412-19424).
-TENDO EM CONTA ESTE ENUNCIADO E UTILIZANDO COMO BASE DE RELATÓRIO NO QUE DIZ RESPOSTO, AO ESTILO DE ESCRITA, ESTRUTURA DAS JUSTIFICAÇÕES, E TUDO O QUE NELES CONTÉM, RESPODENDE ÀS MINHAS QUESTÕES SEMPRE TENDO POR BASE O ENUNCIADO E ESTES RELATORIOS DE EXEMPLOS
 
+TENDO EM CONTA ESTE ENUNCIADO E UTILIZANDO COMO BASE DE RELATÓRIO NO QUE DIZ RESPOSTO, AO ESTILO DE ESCRITA, ESTRUTURA DAS JUSTIFICAÇÕES, E TUDO O QUE NELES CONTÉM, RESPODENDE ÀS MINHAS QUESTÕES SEMPRE TENDO POR BASE O ENUNCIADO E ESTES RELATORIOS DE EXEMPLOS
 -------------------
 
 BASEANDO NAS INTRODUÇÕES DOS MEUS DOIS OUTROS RELATÓRIOS, FAZ AGORA A INTRODUÇÃO DO MEU TRABALHO DE DL EM QUE NO 1º PARAGRAFO FAÇAS A INTRODUÇÃO DE DL NA RESOLUÇÃO DO MEU PROBLEMA (VE O ENUNCIADO) - FAZ ALGO CHAMATIVO, MAS TMB N EXAGERES. NO 2º PARAGRAFO RESUMES O MAIS POSSIVEL OS TRABALHOS DA LITERATURE REVIEW E NO 3 PARAGRAGO A ESTURA DO MEU REPORT DO TRABALHO. SÊ O MAIS SIMPLES, MAS ACADEMICO E CONCISO, MAS SEM FALTAR NADA, POSSIVEL!
