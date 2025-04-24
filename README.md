@@ -39,14 +39,19 @@ Work developed in the Deep Learning course of the Master's in Data Science and A
   - [**`2_ImagePreprocessing&DataAugmentation_DLProject_Group37.ipynb`**](./2_ImagePreprocessing&DataAugmentation_DLProject_Group37.ipynb)
 
 2. **Baseline Model - CNN**
-   - [**`3_Baseline_Model_DLProject_Group37.ipynb`**](./3_Baseline_Model_DLProject_Group37.ipynb)
+   - [**`3_Modeling_Baseline Model_DLProject_Group37.ipynb`**](./3_Modeling_Baseline Model_DLProject_Group37.ipynb)
 
 3. **Pre-trained Models**
-   - [**`4...`**](./)
+   - [**`4_Modeling_VGG-19_DLProject_Group37.ipynb`**](./4_Modeling_VGG-19_DLProject_Group37.ipynb)
+   - [**`5_Modeling_ResNet50V2_DLProject_Group37.ipynb`**](./5_Modeling_ResNet50V2_DLProject_Group37.ipynb)
+   - [**`6_Modeling_ConvNeXt_DLProject_Group37.ipynb`**](./6_Modeling_ConvNeXt_DLProject_Group37.ipynb)
+   - [**`7_Modeling_EfficientNetB0_DLProject_Group37.ipynb`**](./7_Modeling_EfficientNetB0_DLProject_Group37.ipynb)
 
 
-4. **Evaluation**
-  - 
+4. **Tuning Best Model**
+  - [**`8_TuningBestModel_DLProject_Group37.ipynb`**](./8_TuningBestModel_DLProject_Group37.ipynb)
 
 5. **Innovative Approach**
-  - [**`9_Innovative_Approach_DLProject_Group37.ipynb`**](./9_Innovative_Approach_DLProject_Group37.ipynb)
+  - [**`9_InnovativeApproaches_DLProject_Group37.ipynb`**](./9_InnovativeApproaches_DLProject_Group37.ipynb)
+  - [**`10_InnovativeApproachesModels_DLProject_Group37.ipynb`**](./10_InnovativeApproachesModels_DLProject_Group37.ipynb)
+
