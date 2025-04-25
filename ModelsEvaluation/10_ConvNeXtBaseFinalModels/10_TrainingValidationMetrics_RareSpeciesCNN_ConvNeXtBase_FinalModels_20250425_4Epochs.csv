@@ -1,0 +1,4 @@
+,,,Train,Train,Train,Train,Train,Validation,Validation,Validation,Validation,Validation,Test,Test,Test,Test,Test
+,,Time of Execution,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC
+Model,Variation,,,,,,,,,,,,,,,,
+ConvNeXtBase - Final Model,SMOTE (OnlyAnimals),2451.89,0.8231,0.9198,0.7501,0.8224,0.991,0.8225,0.8959,0.7676,0.7761,0.9819,0.8312,0.8971,0.7912,0.7873,0.9855

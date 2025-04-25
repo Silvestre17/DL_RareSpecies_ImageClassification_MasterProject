@@ -1,0 +1,4 @@
+,,,Train,Train,Train,Train,Train,Validation,Validation,Validation,Validation,Validation,Test,Test,Test,Test,Test
+,,Time of Execution,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC,Accuracy,Precision,Recall,F1 Score,AUROC
+Model,Variation,,,,,,,,,,,,,,,,
+ConvNeXtBase | FineTuned,"LR=0.001, Optim=Adam, Dropout=0.5, Unfreeze=False",4775.06,0.9508,0.9769,0.9226,0.9508,0.9988,0.8105,0.8773,0.7821,0.7908,0.9774,0.8207,0.8805,0.8048,0.8007,0.9784
