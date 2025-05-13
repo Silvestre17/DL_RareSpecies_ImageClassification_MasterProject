@@ -27,7 +27,10 @@ checkpoint.keras
 metrics.csv
 2_Modeling_Baseline Model_DLProject_Group37.html
 2_ImagePreprocessing&DataAugmentation_DLProject_Group37.html
+keras_tuner_dir/
+ReportSchemas/
 
 # Cannot save .keras Callbacks because of the size of the file
 **/*.keras
 **/*.html
+links.txt

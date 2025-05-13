@@ -236,8 +236,8 @@ def create_evaluation_dataframe(model_name: str, variation: str,
     
     # Define column MultiIndex: (Set, Metric)
     column_index = pd.MultiIndex.from_product(
-        [["Train", "Validation", "Test"],
-         ["Accuracy", "Precision", "Recall", "F1 Score", "AUROC"]],
+        [["Train", "Validation", "Test"],                                     # Sets
+         ["Accuracy", "Precision", "Recall", "F1 Score", "AUROC"]],           # Metrics
         names=["Set", "Metric"]
     )
     
@@ -259,6 +259,7 @@ def create_evaluation_dataframe(model_name: str, variation: str,
     else:
         # Round time to 2 decimal places
         train_time = round(train_time, 2)
+
     # Insert time of execution at the beginning of the DataFrame
     df.insert(0, ("", "Time of Execution"), train_time)
     
@@ -273,7 +274,6 @@ def create_evaluation_dataframe(model_name: str, variation: str,
         df.to_csv(csv_save_path, index=True)
     
     return df
-
 
 
 # ------------------------------------------------------------------------
@@ -396,7 +396,7 @@ def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_na
     Returns:
         None: Displays or saves the plot.
     """
-    # --- 1. Data Collection and Prediction ---
+    # 1. Data Collection and Prediction
     images_list = []
     labels_list = []
 
@@ -449,13 +449,13 @@ def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_na
          print("Error: Mismatch between number of predictions and true labels after prediction.")
          return
 
-    # --- 2. Identify Correct/Incorrect Predictions ---
+    # 2. Identify Correct/Incorrect Predictions
     correct_indices = np.where(y_pred_indices == y_true_indices)[0]
     incorrect_indices = np.where(y_pred_indices != y_true_indices)[0]
 
     print(f"Found \033[1m{len(correct_indices)} correct\033[0m and \033[1m{len(incorrect_indices)} incorrect\033[0m predictions.\n")
 
-    # --- Print Top 5 Most/Least Accurate Classes ---
+    # Print Top 5 Most/Least Accurate Classes
     # Count correct predictions per class
     correct_per_class = np.zeros(len(class_names), dtype=int)
     total_per_class = np.zeros(len(class_names), dtype=int)
@@ -463,10 +463,12 @@ def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_na
         total_per_class[true_idx] += 1
         if true_idx == pred_idx:
             correct_per_class[true_idx] += 1
+    
     # Avoid division by zero
     # Source: https://numpy.org/doc/stable/reference/generated/numpy.errstate.html
     with np.errstate(divide='ignore', invalid='ignore'):
         acc_per_class = np.where(total_per_class > 0, correct_per_class / total_per_class, 0)
+    
     # Get top 5 most and least accurate classes
     top5_idx = np.argsort(-acc_per_class)[:5]
     bottom5_idx = np.argsort(acc_per_class)[:5]
@@ -489,7 +491,7 @@ def plot_predictions(model: tf.keras.Model, test_data: tf.data.Dataset, class_na
     correct_sample_indices = np.random.choice(correct_indices, num_images, replace=False)
     incorrect_sample_indices = np.random.choice(incorrect_indices, num_images, replace=False)
 
-    # --- 3. Plotting ---
+    # 3. Plotting
     # Create figure: 4 rows (Correct, Incorrect, True Example, Pred Example) x num_images columns
     fig, ax = plt.subplots(4, num_images, figsize=(num_images * 4, 16))
     fig.suptitle('Model Predictions Analysis\n', fontsize=18, fontweight='bold')          
@@ -638,7 +640,6 @@ def plot_images_from_directory(image_paths: Union[str, List[Union[str, Path]]],
             axes[i].text(0.5, 0.5, 'Error Loading', horizontalalignment='center', verticalalignment='center')
             axes[i].set_title(title, fontsize=10, fontweight='bold', color='red')
             axes[i].axis('off')
-
 
     # Hide any unused subplots at the end
     for j in range(num_images, len(axes)):
