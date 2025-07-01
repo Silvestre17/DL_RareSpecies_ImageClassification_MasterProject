@@ -3,31 +3,37 @@
 Work developed for the **Deep Learning** course in the **Master's in Data Science and Advanced Analytics** at **NOVA IMS** (Spring Semester 2024-2025).
 
 <p align="center">
-    <a href="https://github.com/Silvestre17/DeepLearning_Project_Group37">
+    <a href="https://github.com/Silvestre17/DL_RareSpecies_ImageClassification_MasterProject">
         <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repo">
     </a>
 </p>
 
 ## **📝 Description**
 
-This project aims to develop a deep learning model to classify **rare species** based on their images. Utilizing the **BioCLIP dataset**, sourced from the [Encyclopedia of Life (EOL)](https://eol.org/), which includes images and associated taxonomic metadata (`kingdom`, `phylum`, `family`). With **11,983 images** spanning **202 unique families** within the `Animalia` kingdom, the project addresses challenges like class imbalance and noisy data to support biodiversity conservation through automated species identification.
+This project applies advanced **Deep Learning** techniques to tackle the challenge of **rare species classification from images**. Using the **BioCLIP dataset**, sourced from the [Encyclopedia of Life (EOL)](https://eol.org/), which contains over 11,000 images across 202 animal families and associated taxonomic metadata (`kingdom`, `phylum`, `family`), we developed a robust pipeline to preprocess imbalanced and noisy data, train multiple neural network architectures, and deploy an innovative zero-shot classification approach to improve model performance. The ultimate goal is to create a tool that can aid in biodiversity conservation through automated species identification.
 
 ## **✨ Objective**
 
-The primary objective is to:
+The primary objective is to develop a highly accurate image classification model by:
 
-- **Explore** the BioCLIP dataset, analyzing its structure and characteristics (e.g., class imbalance).
-- **Preprocess** images and metadata to handle data challenges effectively.
-- **Develop and evaluate** deep learning models for accurate family classification.
-- **Implement an innovative approach** to enhance classification performance.
+-   **Exploring** the complex BioCLIP dataset to understand its structure and inherent challenges, such as severe class imbalance.
+-   **Preprocessing** images and implementing data augmentation strategies to create a robust training pipeline.
+-   **Developing and evaluating** multiple deep learning models, from a baseline CNN to state-of-the-art pre-trained architectures.
+-   **Innovating** with a zero-shot classification pre-filtering step to remove noisy data and enhance model accuracy.
 
-## **📚 Context**
+## **🎓 Project Context**
 
-This project was undertaken as part of the **Deep Learning** course in the Master's in Data Science and Advanced Analytics program at **NOVA IMS**.
+This project was developed for the **Deep Learning** course in the **[Master's in Data Science and Advanced Analytics](https://www.novaims.unl.pt/en/education/programs/postgraduate-programs-and-master-degree-programs/master-degree-program-in-data-science-and-advanced-analytics-with-a-specialization-in-data-science/)** program at **NOVA IMS**, during the **2nd Semester** of the 2024/2025 academic year.
 
-**Dataset Source:** The dataset is derived from the BioCLIP project, details of which can be found in [BioCLIP](https://imageomics.github.io/bioclip/) website and the associated paper. The dataset is publicly available on the [EOL](https://eol.org/) website, which provides a comprehensive collection of images and metadata for various species. The dataset contains **11,983 images** of rare species, with a focus on the `family` classification task. The images are sourced from various contributors and cover a wide range of species within the `Animalia` kingdom. The dataset is designed to facilitate research in biodiversity conservation and species identification through automated methods.
+## **💾 Data Source**
 
-## **🏗️ Project Structure** (Adapted from the **CRISP-DM** methodology)
+The dataset is derived from the **BioCLIP** project, with images and metadata sourced from the **[Encyclopedia of Life (EOL)](https://eol.org/)**.
+
+*   **Dataset:** **11,983 images** of rare species.
+*   **Target:** Classification across **202 unique `family` labels** within the `Animalia` kingdom.
+*   **Source Links:** [BioCLIP Project](https://imageomics.github.io/bioclip/)
+
+## **🏗️ Project Workflow** (Adapted from the **CRISP-DM** methodology)
 
 The project follows the **CRISP-DM** framework, adapted for deep learning, guiding the process from problem understanding to deployment.
 
@@ -51,7 +57,7 @@ The project follows the **CRISP-DM** framework, adapted for deep learning, guidi
     </a>
 </p>
 
-1. & 2.  **Data Understanding:** 🔍
+2.  **Data Understanding:** 🔍
     - **Dataset:** 11,983 images, 7 metadata features, 202 families, all within `Animalia`.
     - **Challenges:** High class imbalance ([Figure B2](./DL_Group37_Report.pdf)), potential non-animal outliers ([Figure B3](./DL_Group37_Report.pdf)).
     - **Exploration:** Verified data types, checked for missing values/duplicates, and visualized family distribution.
@@ -80,7 +86,7 @@ The project follows the **CRISP-DM** framework, adapted for deep learning, guidi
     <a href="https://pillow.readthedocs.io/"><img src="https://img.shields.io/badge/Pillow-000000?style=for-the-badge&logo=pillow&logoColor=white" alt="Pillow"></a>
 </p>
 
-1.  **Modeling:** 🤖
+4.  **Modeling:** 🤖
     - **Baseline CNN:** Built a custom CNN using Keras Functional API (Figure C1).
     - **Transfer Learning:** Tested pre-trained models (**VGG19**, **ResNet152V2**, **ConvNeXtBase**, **EfficientNetV2B0**) with frozen base layers and custom classification heads (Annex—A).
     - **Experiments:** Evaluated combinations of preprocessing (original, contrast, saturation) and imbalance handling (original, SMOTE, class weights; [Tables C1 & C2](./DL_Group37_Report.pdf)).
@@ -132,42 +138,15 @@ The project follows the **CRISP-DM** framework, adapted for deep learning, guidi
     </a>
 </p>
 
-## 📈 Key Results
+## **📈 Results & Conclusion**
 
-> **Abstract Summary:**  
-> This project developed a deep learning model to classify rare species images into families using the BioCLIP dataset. 
-> 
-> Addressing class imbalance with SMOTE-inspired augmentation and comparing a baseline CNN against pre-trained models (VGG19, ResNet152V2, EfficientNetV2B0, ConvNeXtBase), the **ConvNeXtBase with SMOTE** on a CLIP-filtered dataset achieved **83.1% Accuracy** and **78.7% Macro F1-Score** on the test set. 
-> 
-> The innovative CLIP-based zero-shot classification removed ~15% noisy non-animal images, enhancing model robustness. This work provides a scalable solution for automated species classification, supporting biodiversity conservation.
-
-- **Best Model:** `ConvNeXtBase` with SMOTE augmentation on CLIP-filtered dataset.
-- **Performance (Test Set):**
-  - **Accuracy:** 83.1%
-  - **Macro F1-Score:** 78.7%
-- **Generalization:** Learning curves showed good fit with minimal overfitting ([Figure F1](./DL_Group37_Report.pdf)).
-- **Error Analysis:** Confusion matrix ([Figure F4](./DL_Group37_Report.pdf)) revealed errors in visually similar families or low-quality images ([Figures F2 & F3](./DL_Group37_Report.pdf)).
-- **Tuning:** Keras Tuner did not significantly improve performance, likely due to computational limits.
-
-## 📚 Conclusion & Future Work
-
-This project successfully applied deep learning and transfer learning techniques to the challenging task of rare species image classification, effectively addressing data imbalance and the presence of noisy images. The innovative use of CLIP for outlier detection proved beneficial.
+> The **ConvNeXtBase model**, trained on the **CLIP-filtered "OnlyAnimals" dataset** with **SMOTE-inspired augmentation**, emerged as the top-performing solution. It achieved a final **Accuracy of 83.1%** and a **Macro F1-Score of 78.7%** on the hold-out test set. This project demonstrates that a combination of advanced transfer learning, innovative data cleaning with zero-shot models, and robust imbalance handling can create a powerful and scalable solution for automated species classification, directly supporting biodiversity conservation efforts.
 
 Feel free to explore the notebooks to see the implementation details of each phase!
 
 <br>
 
-### 👥 Team (Group 37)
-
-- André Silvestre, 20240502
-- Diogo Duarte, 20240525
-- Filipa Pereira, 20240509
-- Maria Cruz, 20230760
-- Umeima Adam Mahomed, 20240543
-
-<br>
-
-## **Notebooks Structure**
+## **📂 Repository Structure**
 
 1.  **Data & Image Preparation**
     *   [**`1_BU&EDA&FE_DLProject_Group37.ipynb`**](./1_BU&EDA&FE_DLProject_Group37.ipynb)
@@ -188,3 +167,14 @@ Feel free to explore the notebooks to see the implementation details of each pha
 5.  **Innovative Approach**
     *   [**`9_InnovativeApproaches_DLProject_Group37.ipynb`**](./9_InnovativeApproaches_DLProject_Group37.ipynb)
     *   [**`10_InnovativeApproachesModels_DLProject_Group37.ipynb`**](./10_InnovativeApproachesModels_DLProject_Group37.ipynb)
+
+
+<br>
+
+## 👥 Team Members (Group 37)
+
+- André Silvestre, 20240502
+- Diogo Duarte, 20240525
+- Filipa Pereira, 20240509
+- Maria Cruz, 20230760
+- Umeima Adam Mahomed, 20240543
